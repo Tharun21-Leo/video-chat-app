@@ -1,0 +1,2 @@
+CREATE DATABASE video_chat_app;
+SHOW DATABASES;
