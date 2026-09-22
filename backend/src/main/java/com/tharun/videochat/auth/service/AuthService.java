@@ -1,6 +1,10 @@
 package com.tharun.videochat.auth.service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import com.tharun.videochat.user.dto.LoginRequest;
+import com.tharun.videochat.user.dto.LoginResponse;
 
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +14,8 @@ import com.tharun.videochat.user.dto.RegisterRequest;
 import com.tharun.videochat.user.dto.RegisterResponse;
 import com.tharun.videochat.user.entity.User;
 import com.tharun.videochat.user.repository.UserRepository;
+
+import com.tharun.videochat.exception.InvalidCredentialsException;
 
 @Service
 public class AuthService {
@@ -42,6 +48,29 @@ public class AuthService {
                 "User registered successfully",
                 savedUser.getId(),
                 savedUser.getMobileNumber()
+        );
+    }
+    
+    public LoginResponse login(LoginRequest request) {
+
+        Optional<User> userOptional =
+                userRepository.findByMobileNumber(request.getMobileNumber());
+
+        if (userOptional.isEmpty()) {
+            throw new InvalidCredentialsException("Invalid mobile number or password");
+        }
+
+        User user = userOptional.get();
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid mobile number or password");
+        }
+
+        return new LoginResponse(
+                "Login successful",
+                user.getId(),
+                user.getName(),
+                user.getMobileNumber()
         );
     }
 }
