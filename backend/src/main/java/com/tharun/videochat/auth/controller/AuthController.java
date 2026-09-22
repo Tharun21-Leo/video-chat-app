@@ -13,6 +13,9 @@ import com.tharun.videochat.auth.service.AuthService;
 import com.tharun.videochat.user.dto.RegisterRequest;
 import com.tharun.videochat.user.dto.RegisterResponse;
 
+import com.tharun.videochat.user.dto.LoginRequest;
+import com.tharun.videochat.user.dto.LoginResponse;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -30,5 +33,14 @@ public class AuthController {
         RegisterResponse response = authService.register(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request) {
+
+        LoginResponse response = authService.login(request);
+
+        return ResponseEntity.ok(response);
     }
 }
