@@ -69,6 +69,11 @@ public class ConversationService {
 
         validateUsers(userAId, userBId);
 
+        if (userAId.equals(userBId)) {
+            throw new IllegalArgumentException(
+                    "Cannot start a conversation with yourself");
+        }
+
         Conversation existingConversation =
                 findExistingConversation(userAId, userBId);
 

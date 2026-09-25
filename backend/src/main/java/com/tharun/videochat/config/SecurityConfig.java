@@ -21,10 +21,18 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-            		.requestMatchers("/api/auth/register","/api/auth/login", "/api/users/search", "/api/conversations").permitAll()
-            			    
-                .anyRequest().authenticated()
-            );
+            		.requestMatchers(
+            			    "/api/auth/register",
+            			    "/api/auth/login",
+            			    "/api/users/search",
+            			    "/api/conversations",
+            			    "/api/messages",
+            			    "/api/test",
+            			    "/ws",
+            			    "/websocket-test.html"
+            			).permitAll()
+            	    .anyRequest().authenticated()
+            	);
 
         return http.build();
     }

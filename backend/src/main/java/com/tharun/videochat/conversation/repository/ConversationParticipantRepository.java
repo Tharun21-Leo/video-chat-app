@@ -24,4 +24,8 @@ public interface ConversationParticipantRepository
             @Param("userAId") Long userAId,
             @Param("userBId") Long userBId
     );
+
+    boolean existsByConversationIdAndUserId(
+            Long conversationId,
+            Long userId);
 }
