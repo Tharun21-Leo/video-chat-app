@@ -15,6 +15,7 @@ import com.tharun.videochat.user.dto.RegisterResponse;
 
 import com.tharun.videochat.user.dto.LoginRequest;
 import com.tharun.videochat.user.dto.LoginResponse;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,10 +38,14 @@ public class AuthController {
     
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
-            @Valid @RequestBody LoginRequest request) {
+            @Valid @RequestBody LoginRequest request,
+            HttpSession session) {
 
         LoginResponse response = authService.login(request);
 
+        session.setAttribute("userId", response.getUserId());
+
         return ResponseEntity.ok(response);
     }
+    
 }

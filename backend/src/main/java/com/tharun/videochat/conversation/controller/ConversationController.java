@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tharun.videochat.conversation.entity.Conversation;
 import com.tharun.videochat.conversation.service.ConversationService;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/conversations")
@@ -20,9 +21,14 @@ public class ConversationController {
 
     @PostMapping
     public Conversation startConversation(
-            @RequestParam Long userAId,
-            @RequestParam Long userBId) {
+            @RequestParam Long userBId,
+            HttpSession session) {
 
-        return conversationService.startConversation(userAId, userBId);
+        Long userAId = (Long) session.getAttribute("userId");
+
+        return conversationService.startConversation(
+                userAId,
+                userBId
+        );
     }
 }
